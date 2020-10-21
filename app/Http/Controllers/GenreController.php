@@ -13,8 +13,8 @@ class GenreController extends Controller
     }
 
     public function show($id) {
-
-        return view('genres/show');
+        $genre = Genre::findOrFail($id);
+        return view('genres/show', compact('genre'));
     }
 
     public function create() {

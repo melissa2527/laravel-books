@@ -41,5 +41,23 @@ class BookController extends Controller
         // return $book;
         return redirect(action('BookController@index'));
     }
+
+    public function edit($id) {
+        $book = Book::findOrFail($id);
+        return view('/books/edit', compact('book'));
+    }
+
+    public function update($id) {
+        $book = new Book;
+        
+
+    }
+
+    public function destroy($id) {
+        $book = Book::findOrFail($id);
+        $book->delete();
+
+        return redirect('/books');
+    }
 }
 

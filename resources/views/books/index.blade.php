@@ -1,4 +1,5 @@
 <h1>Index of Books</h1>
+<button><a href="{{action('BookController@create')}}">Add a Book</a></button>
 @foreach($books as $book)
     <h2> {{$book->title}} </h2>
     <p>{{$book->authors}}</p>

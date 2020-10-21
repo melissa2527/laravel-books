@@ -2,5 +2,8 @@
 
 <ul>
     @foreach($genres as $genre)
-    <li>{{$genre->name}}</li>
+    <p>{{$genre->name}}</p>
+    <img src="{{$genre->image}}">
+<button><a href="{{$genre->id}}">Details</a></button>
+    @endforeach
 </ul>

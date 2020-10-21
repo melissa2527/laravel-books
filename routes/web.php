@@ -18,12 +18,15 @@ Route::get('/', function () {
 });
 
 Route::get('/test','TestController@index');
-
 Route::get('/api/books','APIBookController@index');
+
 Route::get('/books','BookController@index')->name('books');
 Route::get('/books/create', 'BookController@create');
-Route::get('books/{id}', 'BookController@show');
+Route::get('/books/{id}', 'BookController@show');
+Route::get('/books/{id}/edit', 'BookController@edit');
+Route::put('/books/{id}', 'BookController@update');
 Route::post('/books', 'BookController@store');
+Route::delete('/books/{id}', 'BookController@destroy');
 
 Route::get('/publishers', 'PublisherController@index');
 Route::get('publishers/{publisher_id}', 'PublisherController@show');
@@ -43,4 +46,9 @@ Route::get('/genres', 'GenreController@index');
 Route::get('/genres/create', 'GenreController@create');
 Route::get('/genres/{id}', 'GenreController@show');
 Route::post('/genres', 'GenreController@store');
+
+Route::get('/bookshops', 'BookshopController@index');
+Route::get('/bookshops/create', 'BookshopController@create');
+Route::get('bookshops/{id}', 'BookshopController@show');
+Route::post('/bookshops', 'BookshopController@store');
 
