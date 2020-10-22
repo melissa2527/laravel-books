@@ -11,7 +11,8 @@ class BookController extends Controller
     //
     public function index()
     {
-        $books = Book::get();
+        $books = Book::with('reviews')->get();
+        // $books = Book::get();
         return view('books/index', compact('books'));
     }
 
@@ -48,8 +49,8 @@ class BookController extends Controller
     }
 
     public function update($id) {
-        $book = new Book;
-        
+        $book = Book::findOrFail($id);
+        return view('/books/show', compact('book'));
 
     }
 
