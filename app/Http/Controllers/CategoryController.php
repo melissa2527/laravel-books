@@ -16,7 +16,7 @@ class CategoryController extends Controller
             return 'no categories';
         }
 
-        return $categories;
+        return view('categories/index', compact('categories'));
     }
 
     public function show($id)
@@ -24,7 +24,7 @@ class CategoryController extends Controller
 
         $category = Category::findOrFail($id);
 
-        return $category;
+        return view('categories/show', compact('category'));
 
     }
 
@@ -40,20 +40,51 @@ class CategoryController extends Controller
         return view('categories/create');
     }
 
+    public function edit($id) {
+        $category = Category::findOrFail($id);
+        return view('/categories/edit', compact('category'));
+    }
+
     public function store(Request $request) {
-        $name = $request->input('name');
 
-        // checks if it is already in the system
-        // $category = Category::where('name', $name)->first();
-        // if ($category === null) {
-        //     $category = new Category;
-        //     $category->name = $name;
-        //     $category->save();
-        // }
+        $this->validate($request, [
+            'name' => 'required|string|min:3|max:191'
+        ]);
+        
+        // $category = new Category;
+        // $category->name = $request->input('name');
+        // $category->save();
 
-        $category = new Category;
-        $category->name = $name;
-        $category->save();
-        return $category;
+        // name of input must be matching column in DB
+        $category = Category::create($request->all());
+
+        return redirect(action('CategoryController@index'));
+    }
+
+    public function update(Request $request, $id) {
+
+        $this->validate($request, [
+            'name' => 'required|string|min:3|max:191'
+        ]);
+        
+        $category = Category::findOrFail($id);
+        $category->update($request->all());
+
+        // longer
+        // $category = Category::findOrFail($id);
+        // $category->name = $request->input('name');
+        // $category->save();
+
+        return redirect('/categories');
+
+
+    }
+
+    public function destroy($id) {
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect('/category');
+        // return redirect(action('CategoryController@index'));
     }
 }

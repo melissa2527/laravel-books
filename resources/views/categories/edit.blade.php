@@ -1,4 +1,4 @@
-<h1>Create new Category</h1>
+<h1>Edit a Category: {{$category->name}}</h1>
 
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -10,8 +10,9 @@
     </div>
 @endif
 
-<form action="{{action('CategoryController@store')}}" method="POST">
+<form action="{{action('CategoryController@update', [$category->id])}}" method="POST">
     @csrf
-    <input type="text" name="name" id="" placeholder="name">
+    @method('put')
+<input type="text" name="name" id="" value="{{$category->name}}">
     <input type="submit" value="submit">
 </form>

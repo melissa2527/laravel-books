@@ -24,7 +24,7 @@ Route::get('/books','BookController@index')->name('books');
 Route::get('/books/create', 'BookController@create');
 Route::get('/books/{id}', 'BookController@show');
 Route::get('/books/{id}/edit', 'BookController@edit');
-Route::put('/books/{id}', 'BookController@update');
+Route::patch('/books/{id}', 'BookController@update');
 Route::post('/books', 'BookController@store');
 Route::delete('/books/{id}', 'BookController@destroy');
 
@@ -38,9 +38,14 @@ Route::get('/categories', 'CategoryController@index');
 Route::get('/categories/create', 'CategoryController@create');
 Route::get('/categories/{id}', 'CategoryController@show');
 Route::post('/categories', 'CategoryController@store');
+Route::get('/categories/{id}/edit', 'CategoryController@edit');
+Route::put('/categories/{id}', 'CategoryController@update');
+Route::delete('/categories/{id}', 'CategoryController@destroy');
 
 Route::get('/subcategories', 'EshopController@subcategory');
 Route::get('/subcategories/{id}', 'EshopController@subcategory');
+
+// Route::get('subcategories', 'SubcategoryController@index');
 
 Route::get('/genres', 'GenreController@index');
 Route::get('/genres/create', 'GenreController@create');
@@ -52,3 +57,4 @@ Route::get('/bookshops/create', 'BookshopController@create');
 Route::get('bookshops/{id}', 'BookshopController@show');
 Route::post('/bookshops', 'BookshopController@store');
 
+Route::post('/books/{book_id}/review', 'BookController@review');

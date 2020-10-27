@@ -4,22 +4,26 @@ namespace App\Http\Controllers;
 
 // use Illuminate\Support\Facades\DB;
 use App\Models\Book;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    //
+    
     public function index()
     {
         $books = Book::with('reviews')->get();
-        // $books = Book::get();
+        // return view('books/index', compact('books'));
         return view('books/index', compact('books'));
     }
 
-    // letting you know there is a parameter in the method; same as the route
     public function show($id) 
     {
-    $book = Book::findOrFail($id);
+    // $book = Book::findOrFail($id);
+    $book = Book::with('reviews')->findOrFail($id);
+    // $reviews = $book->reviews;
+
+    // return $reviews;
     return view('books/show', compact('book'));
         
     }
@@ -29,17 +33,19 @@ class BookController extends Controller
     }
 
     public function store(Request $request) {
-        $title = $request->input('title');
-        $authors = $request->input('authors');
-        $image = $request->input('image');
-        
+
+        // $this->validate($request, 
+        // [
+        //     'title' => 'required',
+        //     'authors' => 'required'
+        // ]);
+
         $book = new Book;
-        $book->title = $title;
-        $book->authors = $authors;
-        $book->image = $image;
+        $book->title = $request->input('title');
+        $book->authors = $request->input('authors');
+        $book->image = $request->input('image');
        
         $book->save();
-        // return $book;
         return redirect(action('BookController@index'));
     }
 
@@ -48,9 +54,17 @@ class BookController extends Controller
         return view('/books/edit', compact('book'));
     }
 
-    public function update($id) {
+    public function update(Request $request, $id) {
+
         $book = Book::findOrFail($id);
-        return view('/books/show', compact('book'));
+        $book->title = $request->input('title');
+        $book->authors = $request->input('authors');
+        $book->image = $request->input('image');
+        $book->save();
+
+        return redirect('/books', compact('book'));
+
+        // return redirect('/books/show', compact('book'));
 
     }
 
@@ -59,6 +73,27 @@ class BookController extends Controller
         $book->delete();
 
         return redirect('/books');
+    }
+
+    public function review(Request $request, $book_id) {
+        $request = request();
+        $this->validate($request,[
+            'text' => 'required|string|255',
+            'rating' => 'required|numeric|min:0|max:100',
+        ]);
+        
+        $book = Book::findOrFail($book_id);
+
+        $review = new Review;
+        $review->book_id = $book->id;
+        $review->text = $request->input('text');
+        $review->rating = $request->input('rating');
+        $review->save();
+
+        // session()->flash('success_message', 'The book was successfully reviewed!');
+        return redirect(action('BookController@show', [$book->id]));
+        // ->with('book', 'review'));
+
     }
 }
 

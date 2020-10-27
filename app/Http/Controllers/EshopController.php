@@ -34,7 +34,10 @@ class EshopController extends Controller
 
     public function subcategory($id) {
         $subcategory = Subcategory::findOrFail($id);
-        $category = Category::find($subcategory->category_id);
+
+        $category_id = $subcategory->category_id;
+        $category = Category::find($category_id);
+
         $books = Book::where('subcategory_id', $subcategory->id)->get();
         return view('eshop/subcategory', compact('subcategory', 'category', 'books'));
     }

@@ -13,6 +13,6 @@ class Review extends Model
     {
         return $this->belongsTo(Book::class);
         return $this->belongsTo(\App\Models\Book::class); //same
-        return $this->belongsTo('App\Models\Book'); //same
+        // return $this->belongsTo('App\Models\Book'); //same
     }
 }
