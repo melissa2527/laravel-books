@@ -22,11 +22,14 @@ Route::get('/api/books','APIBookController@index');
 
 Route::get('/books','BookController@index')->name('books');
 Route::get('/books/create', 'BookController@create');
+Route::post('/books', 'BookController@store');
 Route::get('/books/{id}', 'BookController@show');
 Route::get('/books/{id}/edit', 'BookController@edit');
-Route::patch('/books/{id}', 'BookController@update');
-Route::post('/books', 'BookController@store');
+Route::put('/books/{id}', 'BookController@update');
 Route::delete('/books/{id}', 'BookController@destroy');
+
+
+Route::post('/books/{book_id}/addtoorder', 'BookController@addToOrder')->name('books.add-to-order');
 
 Route::get('/publishers', 'PublisherController@index');
 Route::get('publishers/{publisher_id}', 'PublisherController@show');
@@ -42,10 +45,16 @@ Route::get('/categories/{id}/edit', 'CategoryController@edit');
 Route::put('/categories/{id}', 'CategoryController@update');
 Route::delete('/categories/{id}', 'CategoryController@destroy');
 
-Route::get('/subcategories', 'EshopController@subcategory');
-Route::get('/subcategories/{id}', 'EshopController@subcategory');
+// Route::get('/subcategories', 'EshopController@subcategory');
+// Route::get('/subcategories/{id}', 'EshopController@subcategory');
 
-// Route::get('subcategories', 'SubcategoryController@index');
+Route::get('subcategories', 'SubcategoryController@index');
+Route::get('/subcategories/create', 'SubcategoryController@create');
+Route::get('/subcategories/{id}', 'SubcategoryController@show');
+Route::post('/subcategories', 'SubcategoryController@store');
+Route::get('/subcategories/{id}/edit', 'SubcategoryController@edit');
+Route::put('/subcategories/{id}', 'SubcategoryController@update');
+Route::delete('/subcategories/{id}', 'SubcategoryController@destroy');
 
 Route::get('/genres', 'GenreController@index');
 Route::get('/genres/create', 'GenreController@create');

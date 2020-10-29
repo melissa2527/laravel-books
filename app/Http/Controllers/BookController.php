@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 // use Illuminate\Support\Facades\DB;
 use App\Models\Book;
 use App\Models\Review;
+use App\Models\Category;
+use App\Models\Subcategory;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
@@ -76,7 +80,7 @@ class BookController extends Controller
     }
 
     public function review(Request $request, $book_id) {
-        $request = request();
+        // $request = request();
         $this->validate($request,[
             'text' => 'required|string|255',
             'rating' => 'required|numeric|min:0|max:100',
@@ -90,10 +94,42 @@ class BookController extends Controller
         $review->rating = $request->input('rating');
         $review->save();
 
-        // session()->flash('success_message', 'The book was successfully reviewed!');
         return redirect(action('BookController@show', [$book->id]));
-        // ->with('book', 'review'));
+    }
 
+    public function addToOrder(Request $request, $book_id)
+    {
+        // $this->validate($request, [
+            Validator::make($request->all(), [
+                'quantity' => 'required|numeric|min:1'
+            ], [
+                'quantity.required' => 'Hey, don\'t forget the quantity!',
+                'quantity.min' => 'Value is too low! Go higher!'
+            ])->validateWithBag('addtoorder'); // adds all potential errors to MessageBag named 'addtoorder'
+            // ])->validate();                 // adds all potential errors to MessageBag named 'default'
+    
+    
+            // handle the submission
+            $order = new Order;
+            // TODO: attach user_id to this order
+            // $order->user_id = \Auth::id();
+            $order->save(); // assign an id to the order
+            
+            $book = Book::findOrFail($book_id);
+    
+            $quantity = $request->input('quantity'); // 10
+    
+            // need a record in book_order
+            // that has book_id = 1
+            // that has order_id = 1
+            // INSERT INTO `book_order` (`book_id`, `order_id`, `quantity) VALUES (1, 1, 10)
+            $order->books()->attach($book, ['quantity' => $quantity]);
+    
+            // flash the success message
+            session()->flash('order_success_message', 'Book '. $book->title .' was added to the cart');
+    
+            // redirect somewhere (with GET)
+            return redirect()->route('books.show', $book->id);
     }
 }
 

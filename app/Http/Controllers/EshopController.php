@@ -13,11 +13,14 @@ class EshopController extends Controller
         $categories = DB::select('SELECT * from `categories`');
    
         $books = DB::select('SELECT * from `books`');
+       
  
         return view('eshop/index', compact('categories', 'books'));
     }
 
     public function category($id) {
+
+        // $books = DB::table('books')->where('category_id', $id)->get();
 
         $category = DB::table('categories')->where('id', $id)->first();
 

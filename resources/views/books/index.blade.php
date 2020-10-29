@@ -17,7 +17,6 @@
     <div class="reviews">
         @foreach ($book->reviews as $review)
         {{$review->text}}<br>
-        {{$review->star_value}} stars
         {{$review->rating}}
         @endforeach
     </div>
