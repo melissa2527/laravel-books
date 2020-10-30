@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 Route::get('/test','TestController@index');
 Route::get('/api/books','APIBookController@index');
 
@@ -67,3 +69,5 @@ Route::get('bookshops/{id}', 'BookshopController@show');
 Route::post('/bookshops', 'BookshopController@store');
 
 Route::post('/books/{book_id}/review', 'BookController@review');
+
+Route::get('/home', 'HomeController@index')->middleware('auth')->name('home');
