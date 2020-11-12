@@ -20,7 +20,7 @@
 
 @endif
 
-<form action="{{ route('admin.books.update', $book->id) }}" method="post">
+<form action="{{ route('admin.books.update', $book->id) }}" method="post" enctype="multipart/form-data"> 
     @csrf
     @method('put')
 
@@ -46,10 +46,16 @@
             </label>
 
         @endforeach
-
+       
     </div>
 
+    <div class="form-group">
+        <h3>Cover Image</h3>
+        <input type="file" name="cover">
+    <div>
     <button>Save</button>
+
+   
 
 </form>
 
